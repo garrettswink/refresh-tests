@@ -1,3 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-dm-sans);
+  --font-cormorant: var(--font-cormorant);
+}
+
+@theme {
+  --color-gold: #c9a96e;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #f0ece4;
+}
