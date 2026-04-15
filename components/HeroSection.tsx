@@ -122,8 +122,12 @@ export default function HeroSection() {
             </div>
             <a
               href="#work"
-              className="inline-block text-[0.7rem] tracking-[0.14em] uppercase text-[#c9a96e] border border-[#c9a96e]/35 px-5 py-2.5 hover:bg-[#c9a96e]/10 hover:border-[#c9a96e] transition-all duration-200"
-            >
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="inline-block text-[0.7rem] tracking-[0.14em] uppercase text-[#c9a96e] border border-[#c9a96e]/35 px-5 py-2.5 hover:bg-[#c9a96e]/10 hover:border-[#c9a96e] transition-all duration-200"
+>
               Learn More
             </a>
           </div>
