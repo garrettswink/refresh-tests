@@ -51,29 +51,31 @@ export default function HeroSection() {
           className="mt-8 h-px"
           style={{
             background: "linear-gradient(90deg, transparent, rgba(201,169,110,0.3), transparent)",
-            animation: "expandRule 1.6s cubic-bezier(0.16, 1, 0.3, 1) 2.8s forwards",
+            animation: "expandRule 1.6s cubic-bezier(0.16, 1, 0.3, 1) 2.0s forwards",
             width: 0,
           }}
         />
 
         {/* Scroll indicator */}
-        <div
-          className="absolute bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-0"
-          style={{ animation: "fadeIn 1.2s ease 4.6s forwards" }}
+        <button
+          onClick={() => document.getElementById("profile")?.scrollIntoView({ behavior: "smooth" })}
+          className="absolute bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-0 cursor-pointer group"
+          style={{ animation: "fadeIn 1.2s ease 3.2s forwards" }}
+          aria-label="Scroll to profile"
         >
-          <div
-            className="w-px h-10"
-            style={{
-              background: "linear-gradient(to bottom, rgba(240,236,228,0.15), rgba(201,169,110,0.5))",
-              animation: "scrollPulse 2s ease-in-out 2s infinite",
-            }}
-          />
-          <div className="w-[3px] h-[3px] rounded-full bg-[#c9a96e] opacity-60" />
-        </div>
+          <span className="text-[0.6rem] tracking-[0.2em] uppercase text-[#f0ece4]/30 group-hover:text-[#c9a96e]/60 transition-colors duration-300">Scroll</span>
+          <div className="flex flex-col items-center gap-1.5" style={{ animation: "scrollBounce 2s ease-in-out infinite" }}>
+            <div
+              className="w-px h-12 group-hover:h-14 transition-all duration-300"
+              style={{ background: "linear-gradient(to bottom, rgba(240,236,228,0.1), rgba(201,169,110,0.6))" }}
+            />
+            <div className="w-[5px] h-[5px] rounded-full bg-[#c9a96e] opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
+        </button>
       </section>
 
       {/* Panel 2 — Profile */}
-      <section className="min-h-screen flex items-center justify-center px-6 py-24 border-t border-white/[0.06]">
+      <section id="profile" className="min-h-screen flex items-center justify-center px-6 py-24 border-t border-white/[0.06]">
         <div
           ref={profileRef}
           className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-12 md:gap-20 max-w-4xl w-full items-center opacity-0 translate-y-6 transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
@@ -148,6 +150,10 @@ export default function HeroSection() {
         @keyframes scrollPulse {
           0%, 100% { opacity: 0.4; }
           50% { opacity: 1; }
+        }
+        @keyframes scrollBounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(6px); }
         }
       `}</style>
     </div>

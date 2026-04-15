@@ -25,7 +25,7 @@ export default function SectionCards() {
   return (
     <section
       id="work"
-      className="bg-[#0a0a0a] border-t border-white/[0.06] px-6 py-24"
+      className="bg-[#0a0a0a] border-t border-white/[0.06] px-6 py-24 min-h-screen scroll-mt-20"
     >
       <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#c9a96e] text-center mb-4">
         Explore
