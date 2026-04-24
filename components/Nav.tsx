@@ -4,9 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 
 const links = [
-  { label: "Agency Experience", href: "#agency" },
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "Case Studies", href: "#case-studies" },
+  { label: "Agency Experience", href: "/experience" },
+  { label: "Capabilities", href: "/capabilities" },
+  { label: "Case Studies", href: "/case-studies" },
 ];
 
 export default function Nav() {
