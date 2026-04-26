@@ -7,7 +7,7 @@ type OverviewProps = {
 
 export default function Overview({ eyebrow = "Overview", heading, body }: OverviewProps) {
   return (
-    <section className="relative px-6 py-24 md:py-32">
+    <section className="relative px-6 pt-8 pb-24 md:pt-12 md:pb-32">
       <div className="max-w-3xl mx-auto">
         <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#c9a96e] mb-6">
           {eyebrow}

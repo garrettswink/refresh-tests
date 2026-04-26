@@ -18,7 +18,7 @@ export default function PageBanner({ titleStart, titleAccent }: PageBannerProps)
   }, []);
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative overflow-hidden border-b border-white/[0.07]">
       {/* Orbital rings */}
       <div
         aria-hidden
