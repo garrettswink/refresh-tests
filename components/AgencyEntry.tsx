@@ -16,8 +16,6 @@ export type AgencyData = {
 
 type AgencyEntryProps = {
   agency: AgencyData;
-  index: number;
-  total: number;
 };
 
 // Per-letter delay for the headline color fade-in.
@@ -100,7 +98,7 @@ function HighlightItem({ label, body }: HighlightItemProps) {
   );
 }
 
-export default function AgencyEntry({ agency, index, total }: AgencyEntryProps) {
+export default function AgencyEntry({ agency }: AgencyEntryProps) {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -122,8 +120,6 @@ export default function AgencyEntry({ agency, index, total }: AgencyEntryProps) 
     return () => observer.disconnect();
   }, []);
 
-  const counter = `${String(index + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
-
   return (
     <article
       id={agency.id}
@@ -132,11 +128,6 @@ export default function AgencyEntry({ agency, index, total }: AgencyEntryProps) 
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
       }`}
     >
-      {/* Numbered counter */}
-      <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#c9a96e] mb-6">
-        {counter}
-      </p>
-
       {/* Agency name — large italic display with letter-by-letter gold sweep.
           Reduced-motion users get an instant gold name, no animation. */}
       <h3

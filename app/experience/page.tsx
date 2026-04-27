@@ -2,6 +2,8 @@
 import PageBanner from "@/components/PageBanner";
 import Overview from "@/components/Overview";
 import AgencyExperience from "@/components/AgencyExperience";
+import AgencyNav from "@/components/AgencyNav";
+import BackToTop from "@/components/BackToTop";
 import { AgencyData } from "@/components/AgencyEntry";
 
 const agencies: AgencyData[] = [
@@ -269,7 +271,13 @@ export default function ExperiencePage() {
         ]}
       />
 
+      <AgencyNav
+        agencies={agencies.map(({ id, name }) => ({ id, name }))}
+      />
+
       <AgencyExperience agencies={agencies} />
+
+      <BackToTop triggerId="oliver" />
     </main>
   );
 }
