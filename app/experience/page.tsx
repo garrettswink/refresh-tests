@@ -8,20 +8,40 @@ const agencies: AgencyData[] = [
   {
     id: "oliver",
     name: "Oliver",
-    title: "[Title placeholder]",
-    clients: ["[Client]", "[Client]", "[Client]"],
+    title: "Senior Content Strategist",
+    clients: ["Morgan Stanley"],
     highlights: [
       {
-        label: "[Highlight Title]",
-        body: "[Placeholder description mirroring the format of the other entries — a short paragraph describing scope, approach, and outcome of the work.]",
+        label: "LinkedIn Channel Strategy",
+        body: "Lead content and channel strategy for Morgan Stanley's IBDGCM LinkedIn presence, overseeing both paid and organic programming.",
       },
       {
-        label: "[Highlight Title]",
-        body: "[Placeholder description mirroring the format of the other entries — a short paragraph describing scope, approach, and outcome of the work.]",
+        label: "Stakeholder Relations",
+        body: "Partner with senior client stakeholders to identify content opportunities and translate business priorities into editorial strategy.",
       },
       {
-        label: "[Highlight Title]",
-        body: "[Placeholder description mirroring the format of the other entries — a short paragraph describing scope, approach, and outcome of the work.]",
+        label: "Team Management",
+        body: "Manage a cross-functional team of designers and copywriters to develop and execute content across the channel.",
+      },
+      {
+        label: "Governance + Best Practices",
+        body: "Manage a cross-functional team of designers and copywriters to develop and execute content across the channel.",
+      },
+      {
+        label: "Team Management",
+        body: "Manage a cross-functional team of designers and copywriters to develop and execute content across the channel.",
+      },
+      {
+        label: "Website Refresh",
+        body: "Directed a refresh of the internal resource website supporting the firm's social media program.",
+      },
+      {
+        label: "Executive Communication Program",
+        body: "Built and launched an executive communications program establishing banker activation strategy and providing ongoing editorial and creative support.",
+      },
+         {
+        label: "Reporting",
+        body: "Lead metrics reporting and deliver optimization recommendations to improve channel performance.",
       },
     ],
   },
