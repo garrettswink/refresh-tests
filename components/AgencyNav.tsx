@@ -50,6 +50,10 @@ export default function AgencyNav({ agencies }: AgencyNavProps) {
                   <span className="agency-nav-label font-cormorant italic font-light text-[0.95rem] md:text-[1.15rem] tracking-[0.02em]">
                     {agency.name}
                   </span>
+                  <span
+                    aria-hidden="true"
+                    className="agency-nav-underline pointer-events-none absolute left-2 right-2 md:left-3 md:right-3 -bottom-0.5 h-px origin-center bg-gold/70"
+                  />
                 </a>
               </li>
             ))}
@@ -78,8 +82,17 @@ export default function AgencyNav({ agencies }: AgencyNavProps) {
         a:focus-visible .agency-nav-label {
           background-position: 0 0;
         }
+        .agency-nav-underline {
+          transform: scaleX(0);
+          transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        a:hover .agency-nav-underline,
+        a:focus-visible .agency-nav-underline {
+          transform: scaleX(1);
+        }
         @media (prefers-reduced-motion: reduce) {
-          .agency-nav-label {
+          .agency-nav-label,
+          .agency-nav-underline {
             transition: none;
           }
         }
