@@ -1,60 +1,125 @@
 // components/PageBanner.tsx
 "use client";
 
-import { useEffect, useRef } from "react";
-
 type PageBannerProps = {
   titleStart: string;
   titleAccent: string;
 };
 
 export default function PageBanner({ titleStart, titleAccent }: PageBannerProps) {
-  const ruleRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (ruleRef.current) {
-      ruleRef.current.style.width = "min(320px, 50vw)";
-    }
-  }, []);
-
   return (
     <section className="relative overflow-hidden border-b border-white/[0.07]">
-      {/* Orbital rings */}
+      {/* Orbital rings — concentric, gapped, alternating rotation directions.
+          Rings fade in staggered with the title words and rule. */}
       <div
         aria-hidden
-        className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-0"
-        style={{ animation: "ringsFade 2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards" }}
+        className="absolute inset-0 pointer-events-none flex items-center justify-center"
       >
-        <div className="relative" style={{ width: "min(900px, 110vw)", aspectRatio: "1 / 1" }}>
-          {/* Outer ring */}
-          <div
-            className="absolute inset-0 rounded-full border"
+        <div
+          className="relative"
+          style={{ width: "min(900px, 110vw)", aspectRatio: "1 / 1" }}
+        >
+          {/* Outermost ring — counter-clockwise, slowest — appears with rule.
+              Sized larger than the container so it bleeds past viewport edges. */}
+          <svg
+            viewBox="0 0 100 100"
+            className="absolute opacity-0 motion-reduce:!animate-none"
             style={{
-              borderColor: "rgba(201,169,110,0.14)",
-              transform: "translate(4%, -2%)",
-              animation: "ringSpin 120s linear infinite",
+              inset: "-13%",
+              width: "126%",
+              height: "126%",
+              animation:
+                "bannerRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.35s forwards, bannerRingSpinReverse 200s linear infinite",
+              transformOrigin: "50% 50%",
             }}
-          />
-          {/* Middle ring */}
-          <div
-            className="absolute rounded-full border"
+          >
+            <circle
+              cx="50"
+              cy="50"
+              r="49"
+              fill="none"
+              stroke="rgba(201,169,110,0.12)"
+              strokeWidth="0.14"
+              strokeDasharray="50 10 22 8 34 12 26 8"
+              strokeLinecap="round"
+              pathLength="200"
+            />
+          </svg>
+
+          {/* Outer ring — clockwise, slow — appears just before rule */}
+          <svg
+            viewBox="0 0 100 100"
+            className="absolute inset-0 w-full h-full opacity-0 motion-reduce:!animate-none"
             style={{
-              inset: "12%",
-              borderColor: "rgba(201,169,110,0.10)",
-              transform: "translate(-3%, 3%)",
-              animation: "ringSpinReverse 180s linear infinite",
+              animation:
+                "bannerRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1s forwards, bannerRingSpin 140s linear infinite",
+              transformOrigin: "50% 50%",
             }}
-          />
-          {/* Inner ring */}
-          <div
-            className="absolute rounded-full border"
+          >
+            <circle
+              cx="50"
+              cy="50"
+              r="49"
+              fill="none"
+              stroke="rgba(201,169,110,0.18)"
+              strokeWidth="0.18"
+              strokeDasharray="40 8 18 6 28 10 22 6"
+              strokeLinecap="round"
+              pathLength="200"
+            />
+          </svg>
+
+          {/* Middle ring — counter-clockwise, medium — appears with accent */}
+          <svg
+            viewBox="0 0 100 100"
+            className="absolute opacity-0 motion-reduce:!animate-none"
             style={{
-              inset: "28%",
-              borderColor: "rgba(201,169,110,0.08)",
-              transform: "translate(2%, -4%)",
-              animation: "ringSpin 240s linear infinite",
+              inset: "13%",
+              width: "74%",
+              height: "74%",
+              animation:
+                "bannerRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards, bannerRingSpinReverse 95s linear infinite",
+              transformOrigin: "50% 50%",
             }}
-          />
+          >
+            <circle
+              cx="50"
+              cy="50"
+              r="49"
+              fill="none"
+              stroke="rgba(201,169,110,0.14)"
+              strokeWidth="0.22"
+              strokeDasharray="22 5 14 4 30 6 18 5"
+              strokeLinecap="round"
+              pathLength="200"
+            />
+          </svg>
+
+          {/* Inner ring — clockwise, faster — appears with first word */}
+          <svg
+            viewBox="0 0 100 100"
+            className="absolute opacity-0 motion-reduce:!animate-none"
+            style={{
+              inset: "30%",
+              width: "40%",
+              height: "40%",
+              animation:
+                "bannerRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards, bannerRingSpin 60s linear infinite",
+              transformOrigin: "50% 50%",
+            }}
+          >
+            <circle
+              cx="50"
+              cy="50"
+              r="49"
+              fill="none"
+              stroke="rgba(201,169,110,0.20)"
+              strokeWidth="0.32"
+              strokeDasharray="18 6 26 8 14 4"
+              strokeLinecap="round"
+              pathLength="200"
+            />
+          </svg>
         </div>
       </div>
 
@@ -77,34 +142,27 @@ export default function PageBanner({ titleStart, titleAccent }: PageBannerProps)
             {titleAccent}
           </span>
         </h1>
-
-        {/* Expanding gold rule */}
-        <div
-          ref={ruleRef}
-          className="mt-10 h-px transition-[width] duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent, rgba(201,169,110,0.4), transparent)",
-            width: 0,
-            transitionDelay: "1.1s",
-          }}
-        />
       </div>
 
       <style>{`
         @keyframes bannerUp {
           to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes ringsFade {
+        @keyframes bannerRingsFade {
           to { opacity: 1; }
         }
-        @keyframes ringSpin {
-          from { transform: translate(var(--tx, 0), var(--ty, 0)) rotate(0deg); }
-          to { transform: translate(var(--tx, 0), var(--ty, 0)) rotate(360deg); }
+        @keyframes bannerRingSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
-        @keyframes ringSpinReverse {
-          from { transform: translate(var(--tx, 0), var(--ty, 0)) rotate(0deg); }
-          to { transform: translate(var(--tx, 0), var(--ty, 0)) rotate(-360deg); }
+        @keyframes bannerRingSpinReverse {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(-360deg); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          [style*="bannerRingSpin"] {
+            animation: none !important;
+          }
         }
       `}</style>
     </section>

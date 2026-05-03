@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 const cards = [
   {
@@ -22,6 +25,27 @@ const cards = [
 ];
 
 export default function SectionCards() {
+  const ruleRef = useRef<HTMLDivElement>(null);
+  const [ruleVisible, setRuleVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ruleRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setRuleVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.6 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
       id="work"
@@ -31,11 +55,23 @@ export default function SectionCards() {
         Explore
       </p>
       <h2
-        className="font-cormorant font-light text-[#f0ece4] text-center tracking-[0.02em] mb-16"
+        className="font-cormorant font-light text-[#f0ece4] text-center tracking-[0.02em] mb-6"
         style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
       >
         What I Do
       </h2>
+
+      {/* Left-to-right gold rule under the heading */}
+      <div
+        ref={ruleRef}
+        aria-hidden
+        className="h-px mx-auto mb-16 transition-[width] duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none motion-reduce:!w-[min(220px,40vw)]"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(201,169,110,0.55) 0%, rgba(201,169,110,0.25) 70%, transparent 100%)",
+          width: ruleVisible ? "min(220px, 40vw)" : 0,
+        }}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {cards.map((card) => (
