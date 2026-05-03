@@ -121,13 +121,12 @@ export default function AgencyEntry({ agency }: AgencyEntryProps) {
   }, []);
 
   return (
-    <article
-      id={agency.id}
-      ref={ref}
-      className={`scroll-mt-24 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-      }`}
-    >
+    <article id={agency.id} ref={ref} className="scroll-mt-24">
+      <div
+        className={`transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
+      >
       {/* Agency name — large italic display with letter-by-letter gold sweep.
           Reduced-motion users get an instant gold name, no animation. */}
       <h3
@@ -177,6 +176,7 @@ export default function AgencyEntry({ agency }: AgencyEntryProps) {
           <HighlightItem key={i} label={highlight.label} body={highlight.body} />
         ))}
       </ul>
+      </div>
     </article>
   );
 }

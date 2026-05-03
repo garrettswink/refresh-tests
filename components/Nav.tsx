@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import ContactModal from "./ContactModal";
 
 const links = [
   { label: "Agency Experience", href: "/experience" },
@@ -11,6 +12,7 @@ const links = [
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a] border-b border-white/[0.07]">
@@ -35,12 +37,13 @@ export default function Nav() {
             </li>
           ))}
           <li>
-            <Link
-              href="#contact"
-              className="text-[0.7rem] tracking-[0.14em] uppercase text-[#c9a96e] border border-[#c9a96e]/40 px-4 py-2 hover:bg-[#c9a96e]/10 hover:border-[#c9a96e] transition-all duration-200"
+            <button
+              type="button"
+              onClick={() => setContactOpen(true)}
+              className="text-[0.7rem] tracking-[0.14em] uppercase text-[#c9a96e] border border-[#c9a96e]/40 px-4 py-2 hover:bg-[#c9a96e]/10 hover:border-[#c9a96e] transition-all duration-200 cursor-pointer"
             >
               Contact Me
-            </Link>
+            </button>
           </li>
         </ul>
 
@@ -71,13 +74,19 @@ export default function Nav() {
           ))}
           <Link
             href="#contact"
-            onClick={() => setMenuOpen(false)}
+            onClick={(e) => {
+              e.preventDefault();
+              setMenuOpen(false);
+              setContactOpen(true);
+            }}
             className="text-[0.75rem] tracking-[0.12em] uppercase text-[#c9a96e] pt-5 transition-colors"
           >
             Contact Me
           </Link>
         </div>
       )}
+
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </nav>
   );
 }

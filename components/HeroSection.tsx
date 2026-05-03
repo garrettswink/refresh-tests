@@ -22,7 +22,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <div className="bg-[#0a0a0a] relative overflow-hidden">
+    <div className="bg-[#0a0a0a] relative">
 
       {/* Panel 1 — Headline */}
       <section className="relative h-screen min-h-[500px] flex flex-col items-center justify-center overflow-hidden">
@@ -162,9 +162,13 @@ export default function HeroSection() {
         </p>
 
         {/* Scroll indicator — sits inside the inner ring, just below the headline */}
-        <button
-          onClick={() => document.getElementById("profile")?.scrollIntoView({ behavior: "smooth" })}
-          className="mt-10 flex flex-col items-center gap-3 opacity-0 cursor-pointer group"
+        <a
+          href="#profile"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("profile")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
+          className="relative z-10 mt-10 flex flex-col items-center gap-3 opacity-0 cursor-pointer group no-underline"
           style={{ animation: "fadeIn 1.2s ease 1.9s forwards" }}
           aria-label="Scroll to profile"
         >
@@ -176,11 +180,11 @@ export default function HeroSection() {
             />
             <div className="w-[5px] h-[5px] rounded-full bg-[#c9a96e] opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
-        </button>
+        </a>
       </section>
 
       {/* Panel 2 — Profile */}
-      <section id="profile" className="min-h-screen flex items-center justify-center px-6 py-24 border-t border-white/[0.06]">
+      <section id="profile" className="scroll-mt-20 min-h-screen flex items-center justify-center px-6 py-24 border-t border-white/[0.06]">
         <div
           ref={profileRef}
           className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-12 md:gap-20 max-w-4xl w-full items-center opacity-0 translate-y-6 transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
