@@ -25,7 +25,7 @@ export default function HeroSection() {
     <div className="bg-[#0a0a0a] relative overflow-hidden">
 
       {/* Panel 1 — Headline */}
-      <section className="relative h-screen min-h-[500px] flex flex-col items-center justify-center pb-32">
+      <section className="relative h-screen min-h-[500px] flex flex-col items-center justify-center overflow-hidden">
 
         {/* Grain overlay */}
         <div
@@ -35,6 +35,121 @@ export default function HeroSection() {
             backgroundSize: "200px",
           }}
         />
+
+        {/* Orbital rings — concentric, gapped, rotating in alternating directions.
+            Each ring fades in synced with its corresponding headline word. */}
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none flex items-center justify-center"
+        >
+          <div
+            className="relative"
+            style={{ width: "min(960px, 120vw)", aspectRatio: "1 / 1" }}
+          >
+            {/* Outermost ring — counter-clockwise, slowest — appears with scroll button.
+                Sized larger than the container so it deliberately bleeds past the
+                viewport and nav, suggesting endless radiating circles. */}
+            <svg
+              viewBox="0 0 100 100"
+              className="absolute opacity-0 motion-reduce:!animate-none"
+              style={{
+                inset: "-13%",
+                width: "126%",
+                height: "126%",
+                animation:
+                  "heroRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.9s forwards, heroRingSpinReverse 200s linear infinite",
+                transformOrigin: "50% 50%",
+              }}
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="49"
+                fill="none"
+                stroke="rgba(201,169,110,0.12)"
+                strokeWidth="0.14"
+                strokeDasharray="50 10 22 8 34 12 26 8"
+                strokeLinecap="round"
+                pathLength="200"
+              />
+            </svg>
+
+            {/* Outer ring — clockwise, slow — appears with "Strategy" */}
+            <svg
+              viewBox="0 0 100 100"
+              className="absolute inset-0 w-full h-full opacity-0 motion-reduce:!animate-none"
+              style={{
+                animation:
+                  "heroRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards, heroRingSpin 140s linear infinite",
+                transformOrigin: "50% 50%",
+              }}
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="49"
+                fill="none"
+                stroke="rgba(201,169,110,0.18)"
+                strokeWidth="0.18"
+                strokeDasharray="40 8 18 6 28 10 22 6"
+                strokeLinecap="round"
+                pathLength="200"
+              />
+            </svg>
+
+            {/* Middle ring — counter-clockwise, medium — appears with "Communications" */}
+            <svg
+              viewBox="0 0 100 100"
+              className="absolute opacity-0 motion-reduce:!animate-none"
+              style={{
+                inset: "13%",
+                width: "74%",
+                height: "74%",
+                animation:
+                  "heroRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards, heroRingSpinReverse 95s linear infinite",
+                transformOrigin: "50% 50%",
+              }}
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="49"
+                fill="none"
+                stroke="rgba(201,169,110,0.14)"
+                strokeWidth="0.22"
+                strokeDasharray="22 5 14 4 30 6 18 5"
+                strokeLinecap="round"
+                pathLength="200"
+              />
+            </svg>
+
+            {/* Inner ring — clockwise, faster — appears with "Digital" */}
+            <svg
+              viewBox="0 0 100 100"
+              className="absolute opacity-0 motion-reduce:!animate-none"
+              style={{
+                inset: "30%",
+                width: "40%",
+                height: "40%",
+                animation:
+                  "heroRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards, heroRingSpin 60s linear infinite",
+                transformOrigin: "50% 50%",
+              }}
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="49"
+                fill="none"
+                stroke="rgba(201,169,110,0.20)"
+                strokeWidth="0.32"
+                strokeDasharray="18 6 26 8 14 4"
+                strokeLinecap="round"
+                pathLength="200"
+              />
+            </svg>
+          </div>
+        </div>
 
         {/* Headline */}
         <p
@@ -46,21 +161,11 @@ export default function HeroSection() {
           <span className="opacity-0 translate-y-3" style={{ animation: "fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards" }}>Strategy</span>
         </p>
 
-        {/* Expanding rule */}
-        <div
-          className="mt-8 h-px"
-          style={{
-            background: "linear-gradient(90deg, transparent, rgba(201,169,110,0.3), transparent)",
-            animation: "expandRule 1.6s cubic-bezier(0.16, 1, 0.3, 1) 2.0s forwards",
-            width: 0,
-          }}
-        />
-
-        {/* Scroll indicator */}
+        {/* Scroll indicator — sits inside the inner ring, just below the headline */}
         <button
           onClick={() => document.getElementById("profile")?.scrollIntoView({ behavior: "smooth" })}
-          className="absolute bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-0 cursor-pointer group"
-          style={{ animation: "fadeIn 1.2s ease 3.2s forwards" }}
+          className="mt-10 flex flex-col items-center gap-3 opacity-0 cursor-pointer group"
+          style={{ animation: "fadeIn 1.2s ease 1.9s forwards" }}
           aria-label="Scroll to profile"
         >
           <span className="text-[0.6rem] tracking-[0.2em] uppercase text-[#f0ece4]/30 group-hover:text-[#c9a96e]/60 transition-colors duration-300">Scroll</span>
@@ -154,6 +259,22 @@ export default function HeroSection() {
         @keyframes scrollBounce {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(6px); }
+        }
+        @keyframes heroRingsFade {
+          to { opacity: 1; }
+        }
+        @keyframes heroRingSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes heroRingSpinReverse {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(-360deg); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          [style*="heroRingSpin"] {
+            animation: none !important;
+          }
         }
       `}</style>
     </div>
