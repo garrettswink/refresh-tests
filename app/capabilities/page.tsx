@@ -2,6 +2,7 @@
 import PageBanner from "@/components/PageBanner";
 import Overview from "@/components/Overview";
 import CapabilitiesComponent from "@/components/CapabilitiesComponent";
+import BackToTop from "@/components/BackToTop";
 
 export default function CapabilitiesPage() {
   return (
@@ -17,6 +18,8 @@ export default function CapabilitiesPage() {
       />
 
       <CapabilitiesComponent />
+
+      <BackToTop triggerId="capabilities-stack" />
     </main>
   );
 }

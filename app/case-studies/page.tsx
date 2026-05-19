@@ -109,16 +109,17 @@ const caseStudies: CaseStudyData[] = [
   },
   {
     id: "morgan-stanley",
-    title: "[Project Title TBD]",
+    title: "IBDGCM LinkedIn Program",
     client: "Morgan Stanley",
-    campaignType: "[Campaign Type TBD]",
+    campaignType: "Social Media Strategy",
     logo: "/logos/morgan-stanley.svg",
     logoAlt: "Morgan Stanley",
     logoScale: 1,
     tactics: [
-      "[Tactic 1 TBD]",
-      "[Tactic 2 TBD]",
-      "[Tactic 3 TBD]",
+      "Content Development",
+      "Channel Strategy",
+      "Executive Communications",
+      "Metrics Reporting",
     ],
     summary:
       "[Summary paragraph TBD — replace this placeholder text with the campaign description, approach, and outcomes.]",

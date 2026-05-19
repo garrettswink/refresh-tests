@@ -128,7 +128,7 @@ export default function CaseStudyEntry({ caseStudy, index }: CaseStudyEntryProps
         </div>
 
         {/* Content column */}
-        <div className={`md:col-span-7 ${logoOnLeft ? "md:order-2" : "md:order-1"}`}>
+        <div className={`md:col-span-7 min-w-0 ${logoOnLeft ? "md:order-2" : "md:order-1"}`}>
           {/* Client meta */}
           <dl className="mb-8 space-y-3">
             <div className="flex gap-6">
@@ -168,18 +168,16 @@ export default function CaseStudyEntry({ caseStudy, index }: CaseStudyEntryProps
             <p className="text-[0.6rem] tracking-[0.25em] uppercase text-[#f0ece4]/40 mb-4">
               Tactics
             </p>
-            <p className="text-[0.7rem] tracking-[0.18em] uppercase font-light leading-[2.2] text-[#f0ece4]/55">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-[0.7rem] tracking-[0.18em] uppercase font-light leading-[1.7] text-[#f0ece4]/55">
               {caseStudy.tactics.map((tactic, i) => (
-                <span key={i}>
-                  {tactic}
-                  {i < caseStudy.tactics.length - 1 && (
-                    <span className="text-[#c9a96e] mx-3" aria-hidden>
-                      ·
-                    </span>
-                  )}
-                </span>
+                <li key={i} className="flex items-baseline gap-2">
+                  <span className="text-[#c9a96e]" aria-hidden>
+                    ·
+                  </span>
+                  <span>{tactic}</span>
+                </li>
               ))}
-            </p>
+            </ul>
           </div>
         </div>
       </div>
