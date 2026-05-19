@@ -1,5 +1,6 @@
 // components/CaseStudies.tsx
 import CaseStudyEntry, { CaseStudyData } from "./CaseStudyEntry";
+import AgencyDivider from "./AgencyDivider";
 
 type CaseStudiesProps = {
   caseStudies: CaseStudyData[];
@@ -7,8 +8,11 @@ type CaseStudiesProps = {
 
 export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
   return (
-    <section className="relative px-6 pt-8 pb-32 md:pt-12 md:pb-40 border-t border-white/[0.06]">
+    <section className="relative px-6 pt-8 pb-32 md:pt-12 md:pb-40">
       <div className="max-w-6xl mx-auto">
+        <div className="mb-20 md:mb-24">
+          <AgencyDivider />
+        </div>
         <div className="space-y-32 md:space-y-44">
           {caseStudies.map((caseStudy, i) => (
             <div key={caseStudy.id}>

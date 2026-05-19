@@ -2,6 +2,8 @@
 import PageBanner from "@/components/PageBanner";
 import Overview from "@/components/Overview";
 import CaseStudies from "@/components/CaseStudies";
+import CaseStudyNav from "@/components/CaseStudyNav";
+import BackToTop from "@/components/BackToTop";
 import { CaseStudyData } from "@/components/CaseStudyEntry";
 
 const caseStudies: CaseStudyData[] = [
@@ -136,7 +138,13 @@ export default function CaseStudiesPage() {
         ]}
       />
 
+      <CaseStudyNav
+        caseStudies={caseStudies.map(({ id, title }) => ({ id, title }))}
+      />
+
       <CaseStudies caseStudies={caseStudies} />
+
+      <BackToTop triggerId={caseStudies[0].id} />
     </main>
   );
 }
