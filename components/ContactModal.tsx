@@ -8,11 +8,16 @@ type ContactModalProps = {
   onClose: () => void;
 };
 
+type SendStatus = "idle" | "sending" | "success" | "error";
+
 export default function ContactModal({ open, onClose }: ContactModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const firstFieldRef = useRef<HTMLInputElement>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const mountedAtRef = useRef<number>(0);
+  const [status, setStatus] = useState<SendStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [form, setForm] = useState({ name: "", email: "", message: "", website: "" });
+  const submitting = status === "sending";
 
   // Close on Escape
   useEffect(() => {
@@ -37,22 +42,57 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
   // Focus first field when opened, reset state when closed
   useEffect(() => {
     if (open) {
+      mountedAtRef.current = Date.now();
       // Wait for the transition's first frame so the input is interactive.
       requestAnimationFrame(() => firstFieldRef.current?.focus());
     } else {
-      setSubmitting(false);
-      setForm({ name: "", email: "", message: "" });
+      setStatus("idle");
+      setErrorMessage("");
+      setForm({ name: "", email: "", message: "", website: "" });
     }
   }, [open]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitting(true);
-    // Hookup placeholder — actual transport will be wired up later.
-    // Simulate a brief in-flight state, then close so the disappear-on-send
-    // behavior is verifiable end-to-end.
-    await new Promise((resolve) => setTimeout(resolve, 400));
-    onClose();
+    if (status === "sending") return;
+    setStatus("sending");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          website: form.website,
+          mountedAt: mountedAtRef.current,
+        }),
+      });
+
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
+
+      if (!res.ok || !data.ok) {
+        setStatus("error");
+        setErrorMessage(
+          data.error ?? "Could not send message. Please try again."
+        );
+        return;
+      }
+
+      setStatus("success");
+      // Close after a brief beat so the success state is visible.
+      setTimeout(() => {
+        onClose();
+      }, 1400);
+    } catch {
+      setStatus("error");
+      setErrorMessage("Network error. Please try again.");
+    }
   };
 
   return (
@@ -117,6 +157,25 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Honeypot — visually hidden, accessible to bots only. */}
+            <div
+              aria-hidden="true"
+              className="absolute left-[-9999px] top-auto w-px h-px overflow-hidden"
+            >
+              <label htmlFor="contact-website">Website</label>
+              <input
+                id="contact-website"
+                name="website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={form.website}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, website: e.target.value }))
+                }
+              />
+            </div>
+
             <Field
               id="contact-name"
               label="Name"
@@ -157,14 +216,36 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
               />
             </div>
 
-            <div className="pt-2 flex justify-center">
+            <div className="pt-2 flex flex-col items-center gap-3">
               <button
                 type="submit"
-                disabled={submitting}
+                disabled={submitting || status === "success"}
                 className="text-[0.7rem] tracking-[0.18em] uppercase text-gold border border-gold/40 px-7 py-2.5 hover:bg-gold/10 hover:border-gold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {submitting ? "Sending…" : "Send"}
+                {status === "sending"
+                  ? "Sending…"
+                  : status === "success"
+                  ? "Sent"
+                  : "Send"}
               </button>
+
+              <p
+                role="status"
+                aria-live="polite"
+                className={`text-[0.7rem] tracking-[0.12em] uppercase min-h-[1rem] ${
+                  status === "success"
+                    ? "text-gold"
+                    : status === "error"
+                    ? "text-[#f0ece4]/70"
+                    : "text-transparent"
+                }`}
+              >
+                {status === "success"
+                  ? "Thanks — message sent."
+                  : status === "error"
+                  ? errorMessage
+                  : "\u00A0"}
+              </p>
             </div>
           </form>
         </div>
