@@ -7,19 +7,19 @@ const cards = [
   {
     title: "Agency Experience",
     description:
-      "A decade of leading integrated campaigns for global brands across B2B, B2C, and public affairs.",
+      "Fifteen years leading integrated campaigns across B2B, B2C, and public affairs.",
     href: "/experience",
   },
   {
     title: "Capabilities",
     description:
-      "Strategy, social, paid media, SEO, and web development — the full spectrum of digital communications.",
+      "Strategy, creative, and execution. Built to scale.",
     href: "/capabilities",
   },
   {
     title: "Case Studies",
     description:
-      "Selected work and results from campaigns built for Microsoft, Nestlé, Coca-Cola, and more.",
+      "Selected work from campaigns across sectors.",
     href: "/case-studies",
   },
 ];

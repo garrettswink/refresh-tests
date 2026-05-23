@@ -211,24 +211,20 @@ export default function HeroSection() {
             </p>
             <div className="space-y-4 mb-8">
               <p className="text-[0.88rem] font-light leading-[1.85] text-[#f0ece4]/55">
-                With over a decade of experience leading integrated digital communications
-                campaigns, I specialize in building strategies that connect across digital,
-                social, and earned media channels. I've supported B2B, B2C, public affairs,
-                and internal communications initiatives for major brands, including Microsoft,
-                Intel, Nestlé, The American Beverage Association, UnitedHealth Group, and
-                Coca-Cola.
+               I'm a digital communications strategist and developer with over 15 years of experience. 
+               My approach connects storytelling and brand identity, crafting the message, the web experience, 
+               and the means of getting in front of the right audience.
               </p>
               <p className="text-[0.88rem] font-light leading-[1.85] text-[#f0ece4]/55">
-                My expertise spans all facets of account management — from guiding internal
-                teams and coordinating external vendors to managing client relationships and
-                delivering creative, cost-effective, and high-performing solutions.
+               I've supported B2B, B2C, public affairs, and internal communications initiatives for major 
+               brands across sectors, leading teams, coordinating vendors, and managing client relationships 
+               to deliver creative, cost-effective, and high-performing solutions. 
               </p>
               <p className="text-[0.88rem] font-light leading-[1.85] text-[#f0ece4]/55">
-                In addition to my marketing and communications background, I bring technical
-                fluency as a full-stack web developer, with proficiency in the
-                JavaScript-based MERN stack, SQL, and Python. I'm passionate about blending
-                storytelling, strategy, and technology to create digital experiences that are
-                both impactful and scalable.
+                Whether partnering with an independent business or Fortune 500 company, I bring the same focus: 
+                blending story, strategy, and technology to create digital experiences that are both impactful 
+                and scalable.
+
               </p>
             </div>
             <a
