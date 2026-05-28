@@ -134,8 +134,8 @@ export default function CaseStudiesPage() {
       <Overview
         heading="The Work."
         body={[
-          "A selection of campaigns from across my career — spanning public affairs, public safety, B2B, and B2C — where strategy, content, and operational discipline came together to drive measurable outcomes for clients.",
-          "Each project reflects a different challenge: a website launch, an influencer campaign, a paid media program, a public-facing API. Different clients, different industries, same approach — clear thinking, careful execution, and a focus on results.",
+          "A selection of campaigns from across my career, spanning public affairs, public safety, B2B, and B2C. Each one brought strategy, content, and operational discipline together to drive measurable outcomes for clients.",
+          "Each project met a different challenge: a website launch, an influencer campaign, a paid media program, a public-facing API. Different clients, different industries, one approach: clear thinking, careful execution, and a focus on results.",
         ]}
       />
 

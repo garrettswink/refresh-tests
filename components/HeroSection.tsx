@@ -212,8 +212,7 @@ export default function HeroSection() {
             <div className="space-y-4 mb-8">
               <p className="text-[0.88rem] font-light leading-[1.85] text-[#f0ece4]/55">
                I'm a digital communications strategist and developer with over 15 years of experience. 
-               My approach connects storytelling and brand identity, crafting the message, the web experience, 
-               and the means of getting in front of the right audience.
+               I take a comprehensive approach to cultivating a digital presence: crafting the story a brand tells, the experience built around that narrative, and the means of reaching the right audience.
               </p>
               <p className="text-[0.88rem] font-light leading-[1.85] text-[#f0ece4]/55">
                I've supported B2B, B2C, public affairs, and internal communications initiatives for major 
