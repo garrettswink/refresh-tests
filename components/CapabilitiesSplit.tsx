@@ -88,48 +88,85 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
             }}
           >
             <div key={leftKey} className="animate-[splitFade_0.6s_cubic-bezier(0.22,1,0.36,1)_forwards]">
-              <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#c9a96e] mb-6">
-                {leftEyebrow}
-              </p>
+              {/* MOBILE — always shows the overview; never swaps. */}
+              <div className="md:hidden">
+                <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#c9a96e] mb-6">
+                  {overview.eyebrow}
+                </p>
 
-              <h2
-                className="font-cormorant font-light text-[#f0ece4] leading-[1.2] tracking-[0.02em] mb-6"
-                style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)" }}
-              >
-                {leftHeading}
-              </h2>
+                <h2
+                  className="font-cormorant font-light text-[#f0ece4] leading-[1.2] tracking-[0.02em] mb-6"
+                  style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)" }}
+                >
+                  {overview.heading}
+                </h2>
 
-              {/* Gold rule under the heading */}
-              <div
-                aria-hidden
-                className="h-px mb-10"
-                style={{
-                  background:
-                    "linear-gradient(90deg, rgba(201,169,110,0.55) 0%, rgba(201,169,110,0.25) 70%, transparent 100%)",
-                  width: "min(220px, 40vw)",
-                }}
-              />
+                <div
+                  aria-hidden
+                  className="h-px mb-10"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, rgba(201,169,110,0.55) 0%, rgba(201,169,110,0.25) 70%, transparent 100%)",
+                    width: "min(220px, 40vw)",
+                  }}
+                />
 
-              <div className="space-y-5">
-                {leftBody.map((paragraph, i) => (
-                  <p
-                    key={i}
-                    className="text-[0.88rem] font-light leading-[1.85] text-[#f0ece4]/55"
-                  >
-                    {paragraph}
-                  </p>
-                ))}
+                <div className="space-y-5">
+                  {overview.body.map((paragraph, i) => (
+                    <p
+                      key={i}
+                      className="text-[0.88rem] font-light leading-[1.85] text-[#f0ece4]/55"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
               </div>
 
-              {selectedChild && (
-                <button
-                  type="button"
-                  onClick={() => setSelected(null)}
-                  className="mt-10 text-[0.7rem] tracking-[0.14em] uppercase text-[#c9a96e]/70 font-light transition-colors duration-500 hover:text-[#c9a96e] cursor-pointer"
+              {/* DESKTOP — swaps to the selected sub-section copy. */}
+              <div className="hidden md:block">
+                <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#c9a96e] mb-6">
+                  {leftEyebrow}
+                </p>
+
+                <h2
+                  className="font-cormorant font-light text-[#f0ece4] leading-[1.2] tracking-[0.02em] mb-6"
+                  style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)" }}
                 >
-                  ← Back to overview
-                </button>
-              )}
+                  {leftHeading}
+                </h2>
+
+                <div
+                  aria-hidden
+                  className="h-px mb-10"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, rgba(201,169,110,0.55) 0%, rgba(201,169,110,0.25) 70%, transparent 100%)",
+                    width: "min(220px, 40vw)",
+                  }}
+                />
+
+                <div className="space-y-5">
+                  {leftBody.map((paragraph, i) => (
+                    <p
+                      key={i}
+                      className="text-[0.88rem] font-light leading-[1.85] text-[#f0ece4]/55"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+
+                {selectedChild && (
+                  <button
+                    type="button"
+                    onClick={() => setSelected(null)}
+                    className="mt-10 text-[0.7rem] tracking-[0.14em] uppercase text-[#c9a96e]/70 font-light transition-colors duration-500 hover:text-[#c9a96e] cursor-pointer"
+                  >
+                    ← Back to overview
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
@@ -246,6 +283,8 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
                                     ? "text-[#c9a96e]"
                                     : "text-[#f0ece4]/75 hover:text-[#f0ece4]"
                                 }`}
+                                aria-expanded={isSelected}
+                                aria-controls={`split-child-panel-${cap.number}-${idx}`}
                               >
                                 {child.name}
                                 <span
@@ -256,6 +295,37 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
                                   }`}
                                 />
                               </button>
+
+                              {/* MOBILE-ONLY inline box with placeholder copy + close button. */}
+                              <div
+                                id={`split-child-panel-${cap.number}-${idx}`}
+                                className="md:hidden overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                                style={{
+                                  maxHeight: isSelected ? "600px" : "0px",
+                                  opacity: isSelected ? 1 : 0,
+                                }}
+                              >
+                                <div className="mt-3 mb-2 border-l border-[#c9a96e]/40 pl-4 pr-3 py-4 bg-[#f0ece4]/[0.03] rounded-sm">
+                                  <p className="text-[0.85rem] font-light leading-[1.8] text-[#f0ece4]/70">
+                                    {child.description}
+                                  </p>
+                                  <button
+                                    type="button"
+                                    onClick={() => setSelected(null)}
+                                    className="mt-4 inline-flex items-center gap-2 px-4 py-2 border border-[#c9a96e]/40 text-[0.7rem] tracking-[0.14em] uppercase text-[#c9a96e] font-light transition-colors duration-300 hover:bg-[#c9a96e]/10 hover:border-[#c9a96e] cursor-pointer rounded-sm"
+                                    aria-label={`Close ${child.name}`}
+                                  >
+                                    <span
+                                      aria-hidden
+                                      className="relative inline-block w-3 h-3"
+                                    >
+                                      <span className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 rotate-45 bg-[#c9a96e]" />
+                                      <span className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 -rotate-45 bg-[#c9a96e]" />
+                                    </span>
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
                             </li>
                           );
                         })}
