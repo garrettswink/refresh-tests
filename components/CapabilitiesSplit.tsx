@@ -70,7 +70,7 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
     <section
       ref={sectionRef}
       id="capabilities-stack"
-      className="scroll-mt-20 relative bg-[#0a0a0a] pb-32 md:pb-40 overflow-hidden"
+      className="scroll-mt-20 relative bg-[#0a0a0a] pb-32 md:pb-40"
     >
       <div className="relative max-w-6xl mx-auto px-6 md:px-10 pt-16 md:pt-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 lg:gap-24 items-start">
@@ -78,7 +78,7 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
           {/* LEFT — Overview, slides in from left          */}
           {/* ============================================ */}
           <div
-            className="md:sticky md:top-28 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:!transition-none motion-reduce:!translate-x-0 motion-reduce:!opacity-100"
+            className="md:sticky md:top-28 md:max-h-[calc(100vh-8rem)] md:overflow-y-auto md:pr-2 md:[scrollbar-width:thin] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:!transition-none motion-reduce:!translate-x-0 motion-reduce:!opacity-100"
             style={{
               opacity: hasEntered ? 1 : 0,
               transform: hasEntered ? "translateX(0)" : "translateX(-48px)",
