@@ -4,7 +4,7 @@ import SectionCards from "@/components/SectionCards";
 
 export default function Home() {
   return (
-   <main className="pt-20">
+   <main>
       <HeroSection />
        <SectionCards />
    </main>

@@ -3,6 +3,41 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 
+type HeroRing = {
+  size: number;
+  inset: number;
+  mobileOnly: boolean;
+  clockwise: boolean;
+  delay: number;
+  duration: number;
+  opacity: number;
+  strokeWidth: number;
+};
+
+// Concentric orbital rings — generated with a constant diameter step so the
+// spacing between circles stays uniform from the core out to the perimeter.
+const HERO_RINGS: HeroRing[] = (() => {
+  const STEP = 13; // % between consecutive ring diameters (uniform gap)
+  const MIN = 27; // innermost ring diameter (%)
+  const MAX_ALL = 131; // largest ring shown on all breakpoints (%)
+  const MAX_MOBILE = 235; // largest ring shown on mobile (bleeds off-section)
+  const rings: HeroRing[] = [];
+  let i = 0;
+  for (let size = MIN; size <= MAX_MOBILE; size += STEP, i++) {
+    rings.push({
+      size,
+      inset: (100 - size) / 2,
+      mobileOnly: size > MAX_ALL,
+      clockwise: i % 2 === 0,
+      delay: +(0.2 + i * 0.14).toFixed(2),
+      duration: Math.round(40 + size * 1.4),
+      opacity: +Math.max(0.05, 0.24 - i * 0.011).toFixed(3),
+      strokeWidth: +Math.max(0.08, 0.4 - i * 0.02).toFixed(3),
+    });
+  }
+  return rings;
+})();
+
 export default function HeroSection() {
   const profileRef = useRef<HTMLDivElement>(null);
 
@@ -25,7 +60,7 @@ export default function HeroSection() {
     <div className="bg-[#0a0a0a] relative">
 
       {/* Panel 1 — Headline */}
-      <section className="relative h-screen min-h-[500px] flex flex-col items-center justify-center overflow-hidden">
+      <section className="relative h-[100svh] sm:h-[calc(100svh-5rem)] sm:mt-20 min-h-[560px] flex flex-col items-center justify-center overflow-hidden">
 
         {/* Grain overlay */}
         <div
@@ -46,141 +81,88 @@ export default function HeroSection() {
             className="relative"
             style={{ width: "min(960px, 120vw)", aspectRatio: "1 / 1" }}
           >
-            {/* Outermost ring — counter-clockwise, slowest — appears with scroll button.
-                Sized larger than the container so it deliberately bleeds past the
-                viewport and nav, suggesting endless radiating circles. */}
-            <svg
-              viewBox="0 0 100 100"
-              className="absolute opacity-0 motion-reduce:!animate-none"
-              style={{
-                inset: "-13%",
-                width: "126%",
-                height: "126%",
-                animation:
-                  "heroRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.9s forwards, heroRingSpinReverse 200s linear infinite",
-                transformOrigin: "50% 50%",
-              }}
-            >
-              <circle
-                cx="50"
-                cy="50"
-                r="49"
-                fill="none"
-                stroke="rgba(201,169,110,0.12)"
-                strokeWidth="0.14"
-                strokeDasharray="50 10 22 8 34 12 26 8"
-                strokeLinecap="round"
-                pathLength="200"
-              />
-            </svg>
-
-            {/* Outer ring — clockwise, slow — appears with "Strategy" */}
-            <svg
-              viewBox="0 0 100 100"
-              className="absolute inset-0 w-full h-full opacity-0 motion-reduce:!animate-none"
-              style={{
-                animation:
-                  "heroRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards, heroRingSpin 140s linear infinite",
-                transformOrigin: "50% 50%",
-              }}
-            >
-              <circle
-                cx="50"
-                cy="50"
-                r="49"
-                fill="none"
-                stroke="rgba(201,169,110,0.18)"
-                strokeWidth="0.18"
-                strokeDasharray="40 8 18 6 28 10 22 6"
-                strokeLinecap="round"
-                pathLength="200"
-              />
-            </svg>
-
-            {/* Middle ring — counter-clockwise, medium — appears with "Communications" */}
-            <svg
-              viewBox="0 0 100 100"
-              className="absolute opacity-0 motion-reduce:!animate-none"
-              style={{
-                inset: "13%",
-                width: "74%",
-                height: "74%",
-                animation:
-                  "heroRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards, heroRingSpinReverse 95s linear infinite",
-                transformOrigin: "50% 50%",
-              }}
-            >
-              <circle
-                cx="50"
-                cy="50"
-                r="49"
-                fill="none"
-                stroke="rgba(201,169,110,0.14)"
-                strokeWidth="0.22"
-                strokeDasharray="22 5 14 4 30 6 18 5"
-                strokeLinecap="round"
-                pathLength="200"
-              />
-            </svg>
-
-            {/* Inner ring — clockwise, faster — appears with "Digital" */}
-            <svg
-              viewBox="0 0 100 100"
-              className="absolute opacity-0 motion-reduce:!animate-none"
-              style={{
-                inset: "30%",
-                width: "40%",
-                height: "40%",
-                animation:
-                  "heroRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards, heroRingSpin 60s linear infinite",
-                transformOrigin: "50% 50%",
-              }}
-            >
-              <circle
-                cx="50"
-                cy="50"
-                r="49"
-                fill="none"
-                stroke="rgba(201,169,110,0.20)"
-                strokeWidth="0.32"
-                strokeDasharray="18 6 26 8 14 4"
-                strokeLinecap="round"
-                pathLength="200"
-              />
-            </svg>
+            {HERO_RINGS.map((ring, idx) => (
+              <svg
+                key={idx}
+                viewBox="0 0 100 100"
+                className={`absolute opacity-0 motion-reduce:!animate-none${
+                  ring.mobileOnly ? " sm:hidden" : ""
+                }`}
+                style={{
+                  inset: `${ring.inset}%`,
+                  width: `${ring.size}%`,
+                  height: `${ring.size}%`,
+                  animation: `heroRingsFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) ${ring.delay}s forwards, ${
+                    ring.clockwise ? "heroRingSpin" : "heroRingSpinReverse"
+                  } ${ring.duration}s linear infinite`,
+                  transformOrigin: "50% 50%",
+                }}
+              >
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="49"
+                  fill="none"
+                  stroke={`rgba(201,169,110,${ring.opacity})`}
+                  strokeWidth={ring.strokeWidth}
+                  strokeDasharray="34 9 18 6 26 8 20 7"
+                  strokeLinecap="round"
+                  pathLength="200"
+                />
+              </svg>
+            ))}
           </div>
         </div>
 
-        {/* Headline */}
-        <p
-          className="font-cormorant font-light italic text-[#f0ece4] text-center px-8 leading-[1.2] tracking-[0.04em] flex flex-wrap justify-center gap-x-[0.3em]"
-          style={{ fontSize: "clamp(2.2rem, 6vw, 5rem)" }}
-        >
-          <span className="opacity-0 translate-y-3" style={{ animation: "fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards" }}>Digital</span>
-          <span className="not-italic text-[#c9a96e] opacity-0 translate-y-3" style={{ animation: "fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards" }}>Communications</span>
-          <span className="opacity-0 translate-y-3" style={{ animation: "fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards" }}>Strategy</span>
-        </p>
+        {/* Headline group — only the headline participates in the vertical
+            centering so "Digital Communications Strategy" lands on the rings'
+            horizontal axis. The sub-headline and scroll hang directly below it. */}
+        <div className="relative flex flex-col items-center">
+          {/* Headline */}
+          <p
+            className="font-cormorant font-light italic text-[#f0ece4] text-center px-5 sm:px-8 leading-[1.1] sm:leading-[1.2] tracking-[0.02em] sm:tracking-[0.04em] flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-y-1 sm:gap-y-0 gap-x-0 sm:gap-x-[0.3em]"
+            style={{ fontSize: "clamp(2.1rem, 9vw, 5rem)" }}
+          >
+            <span className="opacity-0 translate-y-3" style={{ animation: "fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards" }}>Digital</span>
+            <span className="not-italic text-[#c9a96e] opacity-0 translate-y-3" style={{ animation: "fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards" }}>Communications</span>
+            <span className="opacity-0 translate-y-3" style={{ animation: "fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards" }}>Strategy</span>
+          </p>
 
-        {/* Scroll indicator — sits inside the inner ring, just below the headline */}
-        <a
-          href="#profile"
-          onClick={(e) => {
-            e.preventDefault();
-            document.getElementById("profile")?.scrollIntoView({ behavior: "smooth", block: "start" });
-          }}
-          className="relative z-10 mt-10 flex flex-col items-center gap-3 opacity-0 cursor-pointer group no-underline"
-          style={{ animation: "fadeIn 1.2s ease 1.9s forwards" }}
-          aria-label="Scroll to profile"
-        >
-          <span className="text-[0.6rem] tracking-[0.2em] uppercase text-[#f0ece4]/30 group-hover:text-[#c9a96e]/60 transition-colors duration-300">Scroll</span>
-          <div className="flex flex-col items-center gap-1.5" style={{ animation: "scrollBounce 2s ease-in-out infinite" }}>
-            <div
-              className="w-px h-12 group-hover:h-14 transition-all duration-300"
-              style={{ background: "linear-gradient(to bottom, rgba(240,236,228,0.1), rgba(201,169,110,0.6))" }}
-            />
-            <div className="w-[5px] h-[5px] rounded-full bg-[#c9a96e] opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
+          {/* Sub-headline + scroll — hang below the centered headline */}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 flex flex-col items-center">
+            {/* Sub-headline */}
+            <p
+              className="mt-8 sm:mt-12 px-6 font-light text-[#f0ece4]/50 text-center tracking-[0.16em] sm:tracking-[0.22em] uppercase whitespace-nowrap opacity-0"
+              style={{
+                fontSize: "clamp(0.72rem, 3vw, 0.95rem)",
+                animation: "fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.7s forwards",
+              }}
+            >
+              Story, built end to end
+            </p>
+
+            {/* Scroll indicator — sits inside the inner ring, just below the headline */}
+            <a
+              href="#profile"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("profile")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="relative z-10 mt-8 sm:mt-10 flex flex-col items-center gap-3 opacity-0 cursor-pointer group no-underline"
+              style={{ animation: "fadeIn 1.2s ease 1.9s forwards" }}
+              aria-label="Scroll to profile"
+            >
+              <span className="text-[0.6rem] tracking-[0.2em] uppercase text-[#f0ece4]/30 group-hover:text-[#c9a96e]/60 transition-colors duration-300">Scroll</span>
+              <div className="flex flex-col items-center gap-1.5" style={{ animation: "scrollBounce 2s ease-in-out infinite" }}>
+                <div
+                  className="w-px h-10 sm:h-12 group-hover:h-14 transition-all duration-300"
+                  style={{ background: "linear-gradient(to bottom, rgba(240,236,228,0.1), rgba(201,169,110,0.6))" }}
+                />
+                <div className="w-[5px] h-[5px] rounded-full bg-[#c9a96e] opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </a>
           </div>
-        </a>
+        </div>
       </section>
 
       {/* Panel 2 — Profile */}
@@ -211,18 +193,13 @@ export default function HeroSection() {
             </p>
             <div className="space-y-4 mb-8">
               <p className="text-[0.88rem] font-light leading-[1.85] text-[#f0ece4]/55">
-               I'm a digital communications strategist and developer with over 15 years of experience. 
-               I take a comprehensive approach to cultivating a digital presence: crafting the story a brand tells, the experience built around that narrative, and the means of reaching the right audience.
+               I'm a digital communications strategist and developer with more than 15 years in the field. My work covers the full arc of a brand's digital presence: the story it tells, the experience built around that story, and the strategy that puts both in front of the right audience. 
               </p>
               <p className="text-[0.88rem] font-light leading-[1.85] text-[#f0ece4]/55">
-               I've supported B2B, B2C, public affairs, and internal communications initiatives for major 
-               brands across sectors, leading teams, coordinating vendors, and managing client relationships 
-               to deliver creative, cost-effective, and high-performing solutions. 
+              I've led programs for major brands across B2B, B2C, and public affairs, and I bring that same discipline to small and mid-sized businesses as an independent consultant. 
               </p>
               <p className="text-[0.88rem] font-light leading-[1.85] text-[#f0ece4]/55">
-                Whether partnering with an independent business or Fortune 500 company, I bring the same focus: 
-                blending story, strategy, and technology to create digital experiences that are both impactful 
-                and scalable.
+            Whatever the scale of the engagement, the approach holds: story, strategy, and technology working together to build digital experiences that perform and scale without wasting budget. 
 
               </p>
             </div>
