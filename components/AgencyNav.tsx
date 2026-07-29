@@ -33,13 +33,14 @@ export default function AgencyNav({ agencies }: AgencyNavProps) {
         </p>
 
         <div className="relative">
-          {/* Delicate connecting line */}
+          {/* Delicate connecting line — only meaningful for the single-row
+              desktop layout; hidden on mobile where items wrap. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-linear-to-r from-transparent via-gold/25 to-transparent"
+            className="pointer-events-none absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-linear-to-r from-transparent via-gold/25 to-transparent hidden md:block"
           />
 
-          <ul className="relative flex flex-wrap items-center justify-between gap-y-4 gap-x-3 md:gap-x-6">
+          <ul className="relative flex flex-wrap items-center justify-center md:justify-between gap-y-3 gap-x-2 md:gap-x-6">
             {agencies.map((agency) => (
               <li key={agency.id} className="relative">
                 <a

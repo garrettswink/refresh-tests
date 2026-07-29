@@ -130,7 +130,7 @@ export default function AgencyEntry({ agency }: AgencyEntryProps) {
       {/* Agency name — large italic display with letter-by-letter gold sweep.
           Reduced-motion users get an instant gold name, no animation. */}
       <h3
-        className="font-cormorant italic font-light leading-[1.05] tracking-[0.01em] mb-10 md:mb-12 motion-reduce:text-[#c9a96e]"
+        className="font-cormorant italic font-light leading-[1.05] tracking-[0.01em] mb-10 md:mb-12 motion-reduce:text-[#c9a96e] text-center md:text-left"
         style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)" }}
         aria-label={agency.name}
       >

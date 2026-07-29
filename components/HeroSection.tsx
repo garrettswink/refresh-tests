@@ -116,8 +116,10 @@ export default function HeroSection() {
 
         {/* Headline group — only the headline participates in the vertical
             centering so "Digital Communications Strategy" lands on the rings'
-            horizontal axis. The sub-headline and scroll hang directly below it. */}
-        <div className="relative flex flex-col items-center">
+            horizontal axis. The sub-headline and scroll hang directly below it.
+            The negative translate compensates for the nav offset and nudges the
+            headline to sit square in the viewport's vertical center. */}
+        <div className="relative flex flex-col items-center -translate-y-8 sm:-translate-y-14">
           {/* Headline */}
           <p
             className="font-cormorant font-light italic text-[#f0ece4] text-center px-5 sm:px-8 leading-[1.1] sm:leading-[1.2] tracking-[0.02em] sm:tracking-[0.04em] flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-y-1 sm:gap-y-0 gap-x-0 sm:gap-x-[0.3em]"
@@ -138,7 +140,7 @@ export default function HeroSection() {
                 animation: "fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.7s forwards",
               }}
             >
-              Story, built end to end
+              Story, written end to end
             </p>
 
             {/* Scroll indicator — sits inside the inner ring, just below the headline */}
@@ -199,7 +201,7 @@ export default function HeroSection() {
               I've led programs for major brands across B2B, B2C, and public affairs, and I bring that same discipline to small and mid-sized businesses as an independent consultant. 
               </p>
               <p className="text-[0.88rem] font-light leading-[1.85] text-[#f0ece4]/55">
-            Whatever the scale of the engagement, the approach holds: story, strategy, and technology working together to build digital experiences that perform and scale without wasting budget. 
+            Whatever the scale of the engagement, the approach holds: story, strategy, and technology working together to build a complete digital experience. 
 
               </p>
             </div>

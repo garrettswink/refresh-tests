@@ -15,33 +15,21 @@ const agencies: AgencyData[] = [
     highlights: [
       {
         label: "LinkedIn Channel Strategy",
-        body: "Lead content and channel strategy for Morgan Stanley's IBDGCM LinkedIn presence, overseeing both paid and organic programming.",
+        body: "Lead content and channel strategy for Morgan Stanley's IBDGCM LinkedIn presence, developing creative programming around deal milestones, banker thought leadership, and market commentary.",
       },
       {
         label: "Stakeholder Relations",
         body: "Partner with senior client stakeholders to identify content opportunities and translate business priorities into editorial strategy.",
       },
       {
-        label: "Team Management",
-        body: "Manage a cross-functional team of designers and copywriters to develop and execute content across the channel.",
+        label: "Social Media Governance + Best Practices",
+        body: "Developed banker compliance guidelines, social media best practices, and post templates to standardize and scale content production across the channel.",
       },
       {
-        label: "Governance + Best Practices",
-        body: "Manage a cross-functional team of designers and copywriters to develop and execute content across the channel.",
-      },
-      {
-        label: "Team Management",
-        body: "Manage a cross-functional team of designers and copywriters to develop and execute content across the channel.",
-      },
-      {
-        label: "Website Refresh",
+        label: "Internal Website Refresh",
         body: "Directed a refresh of the internal resource website supporting the firm's social media program.",
       },
       {
-        label: "Executive Communication Program",
-        body: "Built and launched an executive communications program establishing banker activation strategy and providing ongoing editorial and creative support.",
-      },
-         {
         label: "Reporting",
         body: "Lead metrics reporting and deliver optimization recommendations to improve channel performance.",
       },
