@@ -122,7 +122,7 @@ const caseStudies: CaseStudyData[] = [
       "Metrics Reporting",
     ],
     summary:
-      "[Summary paragraph TBD — replace this placeholder text with the campaign description, approach, and outcomes.]",
+      "Built to establish Morgan Stanley's Investment Banking and Global Capital Markets division as a leading voice on LinkedIn, the program pairs always-on editorial strategy with the governance a highly regulated industry demands. Organic programming spotlights deal milestones, banker thought leadership, and market commentary, developed in close partnership with senior stakeholders to translate business priorities into editorial strategy. Banker compliance guidelines, best-practice playbooks, and post templates standardize and scale content production. Ongoing metrics reporting and optimization sharpen channel performance over time.",
   },
 ];
 
