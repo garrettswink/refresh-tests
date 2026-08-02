@@ -15,6 +15,7 @@ type CapabilitiesSplitProps = {
 
 export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const categoryRefs = useRef<(HTMLLIElement | null)[]>([]);
   const [hasEntered, setHasEntered] = useState(false);
   const [openCategory, setOpenCategory] = useState<number | null>(null);
   const [selected, setSelected] = useState<{
@@ -40,9 +41,22 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
   const toggleCategory = (i: number) => {
     const next = openCategory === i ? null : i;
     setOpenCategory(next);
-    // When every accordion is closed, fall back to the overview copy.
-    if (next === null) {
-      setSelected(null);
+    // Opening a category (or closing all) always clears any open sub-section, so
+    // a previously expanded item never lingers when you switch sections.
+    setSelected(null);
+
+    // On mobile, bring the tapped category to the middle of the screen.
+    if (
+      next !== null &&
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 767px)").matches
+    ) {
+      requestAnimationFrame(() => {
+        categoryRefs.current[i]?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      });
     }
   };
 
@@ -186,6 +200,9 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
                 return (
                   <li
                     key={cap.number}
+                    ref={(el) => {
+                      categoryRefs.current[i] = el;
+                    }}
                     className="border-b border-[#c9a96e]/15 last:border-b-0 motion-reduce:!transition-none motion-reduce:!translate-y-0 motion-reduce:!opacity-100"
                     style={{
                       opacity: hasEntered ? 1 : 0,
@@ -278,7 +295,7 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
                               <button
                                 type="button"
                                 onClick={() => selectChild(i, idx)}
-                                className={`group/child relative inline-block text-left font-cormorant font-light leading-tight py-1.5 text-[1.1rem] md:text-[1.2rem] transition-colors duration-500 cursor-pointer ${
+                                className={`group/child relative flex w-full items-center justify-between gap-3 text-left font-cormorant font-light leading-tight py-1.5 text-[1.1rem] md:text-[1.2rem] transition-colors duration-500 cursor-pointer ${
                                   isSelected
                                     ? "text-[#c9a96e]"
                                     : "text-[#f0ece4]/75 hover:text-[#f0ece4]"
@@ -286,14 +303,28 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
                                 aria-expanded={isSelected}
                                 aria-controls={`split-child-panel-${cap.number}-${idx}`}
                               >
-                                {child.name}
-                                <span
-                                  className={`absolute -bottom-0.5 left-0 h-px bg-[#c9a96e] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                                    isSelected
-                                      ? "w-full"
-                                      : "w-0 group-hover/child:w-full"
-                                  }`}
-                                />
+                                <span className="relative inline-block">
+                                  {child.name}
+                                  <span
+                                    className={`absolute -bottom-0.5 left-0 h-px bg-[#c9a96e] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                                      isSelected
+                                        ? "w-full"
+                                        : "w-0 group-hover/child:w-full"
+                                    }`}
+                                  />
+                                </span>
+
+                                {/* Mobile expand affordance — a plus that hints the
+                                    row expands; hidden once open (Close handles it) */}
+                                {!isSelected && (
+                                  <span
+                                    aria-hidden
+                                    className="md:hidden shrink-0 relative w-3.5 h-3.5 text-[#c9a96e]/60"
+                                  >
+                                    <span className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-current" />
+                                    <span className="absolute top-0 bottom-0 left-1/2 w-px -translate-x-1/2 bg-current" />
+                                  </span>
+                                )}
                               </button>
 
                               {/* MOBILE-ONLY inline box with placeholder copy + close button. */}
@@ -319,7 +350,7 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
                                   <button
                                     type="button"
                                     onClick={() => setSelected(null)}
-                                    className="mt-4 inline-flex items-center gap-2 px-4 py-2 border border-[#c9a96e]/40 text-[0.7rem] tracking-[0.14em] uppercase text-[#c9a96e] font-light transition-colors duration-300 hover:bg-[#c9a96e]/10 hover:border-[#c9a96e] cursor-pointer rounded-sm"
+                                    className="mt-4 mx-auto flex w-fit items-center gap-2 px-4 py-2 border border-[#c9a96e]/40 text-[0.7rem] tracking-[0.14em] uppercase text-[#c9a96e] font-light transition-colors duration-300 hover:bg-[#c9a96e]/10 hover:border-[#c9a96e] cursor-pointer rounded-sm"
                                     aria-label={`Close ${child.name}`}
                                   >
                                     <span

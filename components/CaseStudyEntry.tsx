@@ -2,7 +2,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 export type CaseStudyData = {
   id: string;
@@ -74,20 +74,37 @@ export default function CaseStudyEntry({ caseStudy, index }: CaseStudyEntryProps
         style={{ fontSize: "clamp(2.25rem, 6vw, 4.75rem)" }}
         aria-label={caseStudy.title}
       >
-        {Array.from(caseStudy.title).map((char, i) => (
-          <span
-            key={i}
-            aria-hidden="true"
-            className="inline-block transition-colors ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none"
-            style={{
-              color: visible ? "#c9a96e" : "#f0ece4",
-              transitionDuration: `${LETTER_DURATION_MS}ms`,
-              transitionDelay: visible ? `${i * LETTER_DELAY_MS}ms` : "0ms",
-            }}
-          >
-            {char === " " ? "\u00A0" : char}
-          </span>
-        ))}
+        {caseStudy.title.split(" ").map((word, wi, words) => {
+          // Running letter offset so the gold sweep flows continuously across
+          // words. Each word is kept on one line; wraps only happen at spaces.
+          const offset = words
+            .slice(0, wi)
+            .reduce((sum, w) => sum + w.length, 0);
+          return (
+            <Fragment key={wi}>
+              <span className="inline-block whitespace-nowrap">
+                {Array.from(word).map((char, ci) => {
+                  const i = offset + ci;
+                  return (
+                    <span
+                      key={ci}
+                      aria-hidden="true"
+                      className="inline-block transition-colors ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none"
+                      style={{
+                        color: visible ? "#c9a96e" : "#f0ece4",
+                        transitionDuration: `${LETTER_DURATION_MS}ms`,
+                        transitionDelay: visible ? `${i * LETTER_DELAY_MS}ms` : "0ms",
+                      }}
+                    >
+                      {char}
+                    </span>
+                  );
+                })}
+              </span>
+              {wi < words.length - 1 ? " " : null}
+            </Fragment>
+          );
+        })}
       </h3>
 
       {/* Two-column body: logo + content, alternating left/right by index */}

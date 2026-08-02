@@ -91,7 +91,7 @@ const caseStudies: CaseStudyData[] = [
   },
   {
     id: "microsoft-online-retail",
-    title: "Microsoft Online Retail",
+    title: "Microsoft Store Creator Partnership Program",
     client: "Microsoft",
     campaignType: "B2C",
     logo: "/logos/microsoft.png",
@@ -109,7 +109,7 @@ const caseStudies: CaseStudyData[] = [
   },
   {
     id: "morgan-stanley",
-    title: "IBDGCM LinkedIn Program",
+    title: "IBDGCM LinkedIn",
     client: "Morgan Stanley",
     campaignType: "Social Media Strategy",
     logo: "/logos/morgan-stanley.svg",

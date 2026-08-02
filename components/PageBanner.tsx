@@ -123,7 +123,7 @@ export default function PageBanner({ titleStart, titleAccent }: PageBannerProps)
         </div>
       </div>
 
-      <div className="relative flex flex-col items-center justify-center text-center px-6 py-24 md:py-32">
+      <div className="relative flex flex-col items-center justify-center text-center px-6 pt-20 pb-28 md:pt-28 md:pb-36">
         {/* Title */}
         <h1
           className="font-cormorant font-light text-[#f0ece4] leading-[1.15] tracking-[0.02em] flex flex-wrap justify-center gap-x-[0.3em]"
