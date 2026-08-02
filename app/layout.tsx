@@ -17,8 +17,27 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "My App",
-  description: "",
+  metadataBase: new URL("https://garrettswink.com"),
+  title: {
+    default: "Garrett Swink — Digital Communications Strategy",
+    template: "%s — Garrett Swink",
+  },
+  description:
+    "Digital communications strategist and developer with 15+ years across B2B, B2C, and public affairs. Story, strategy, and technology working together to build a complete digital experience.",
+  openGraph: {
+    title: "Garrett Swink — Digital Communications Strategy",
+    description:
+      "Story, strategy, and technology working together to build a complete digital experience.",
+    url: "https://garrettswink.com",
+    siteName: "Garrett Swink",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Garrett Swink — Digital Communications Strategy",
+    description:
+      "Story, strategy, and technology working together to build a complete digital experience.",
+  },
 };
 
 export default function RootLayout({
