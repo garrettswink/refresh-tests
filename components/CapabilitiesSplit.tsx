@@ -16,6 +16,7 @@ type CapabilitiesSplitProps = {
 export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const categoryRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const childRefs = useRef<Map<string, HTMLLIElement>>(new Map());
   const [hasEntered, setHasEntered] = useState(false);
   const [openCategory, setOpenCategory] = useState<number | null>(null);
   const [selected, setSelected] = useState<{
@@ -38,30 +39,45 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
     return () => observer.disconnect();
   }, []);
 
+  // Smoothly bring an element to the middle of the screen on mobile only.
+  // `delay` lets an expand/collapse transition settle before we measure.
+  const centerInView = (el: HTMLElement | null | undefined, delay = 0) => {
+    if (
+      !el ||
+      typeof window === "undefined" ||
+      !window.matchMedia("(max-width: 767px)").matches
+    ) {
+      return;
+    }
+    const run = () =>
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (delay) window.setTimeout(run, delay);
+    else requestAnimationFrame(run);
+  };
+
   const toggleCategory = (i: number) => {
     const next = openCategory === i ? null : i;
     setOpenCategory(next);
     // Opening a category (or closing all) always clears any open sub-section, so
     // a previously expanded item never lingers when you switch sections.
     setSelected(null);
-
-    // On mobile, bring the tapped category to the middle of the screen.
-    if (
-      next !== null &&
-      typeof window !== "undefined" &&
-      window.matchMedia("(max-width: 767px)").matches
-    ) {
-      requestAnimationFrame(() => {
-        categoryRefs.current[i]?.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      });
-    }
+    // Center the tapped category whether it's opening or collapsing, so the
+    // section and its 1–7 list sit nicely in view. Wait for the expand
+    // transition when opening so the final position is measured.
+    centerInView(categoryRefs.current[i], next === null ? 60 : 380);
   };
 
   const selectChild = (cat: number, child: number) => {
     setSelected({ cat, child });
+    // Recenter on the chosen sub-section once its panel has expanded, so the
+    // revealed content sits centered in the viewport.
+    centerInView(childRefs.current.get(`${cat}-${child}`), 420);
+  };
+
+  const closeChild = (cat: number) => {
+    setSelected(null);
+    // Return focus to the parent category so the sub-list is centered again.
+    centerInView(categoryRefs.current[cat], 60);
   };
 
   // Derive the copy shown in the left panel. When a sub-category is selected we
@@ -281,6 +297,10 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
                           return (
                             <li
                               key={child.name}
+                              ref={(el) => {
+                                if (el) childRefs.current.set(`${i}-${idx}`, el);
+                                else childRefs.current.delete(`${i}-${idx}`);
+                              }}
                               className={
                                 isOpen
                                   ? "opacity-0 animate-[splitFadeUp_0.5s_cubic-bezier(0.22,1,0.36,1)_forwards]"
@@ -349,7 +369,7 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
                                   </div>
                                   <button
                                     type="button"
-                                    onClick={() => setSelected(null)}
+                                    onClick={() => closeChild(i)}
                                     className="mt-4 mx-auto flex w-fit items-center gap-2 px-4 py-2 border border-[#c9a96e]/40 text-[0.7rem] tracking-[0.14em] uppercase text-[#c9a96e] font-light transition-colors duration-300 hover:bg-[#c9a96e]/10 hover:border-[#c9a96e] cursor-pointer rounded-sm"
                                     aria-label={`Close ${child.name}`}
                                   >

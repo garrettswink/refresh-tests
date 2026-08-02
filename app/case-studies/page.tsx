@@ -91,7 +91,7 @@ const caseStudies: CaseStudyData[] = [
   },
   {
     id: "microsoft-online-retail",
-    title: "Microsoft Store Creator Partnership Program",
+    title: "Microsoft Creator Partnership Program",
     client: "Microsoft",
     campaignType: "B2C",
     logo: "/logos/microsoft.png",
@@ -128,7 +128,7 @@ const caseStudies: CaseStudyData[] = [
 
 export default function CaseStudiesPage() {
   return (
-    <main className="pt-20">
+    <main className="pt-20 overflow-x-clip">
       <PageBanner titleStart="Case" titleAccent="Studies" />
 
       <Overview
