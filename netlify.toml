@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+
+[build.environment]
+  # Next.js 16 requires a modern Node runtime. Pin it so local and CI match.
+  NODE_VERSION = "22"
+
+# Netlify auto-installs the official Next.js runtime when it detects a Next.js
+# site. Declaring it explicitly makes the dependency obvious and stable.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

@@ -140,7 +140,7 @@ export default function HeroSection() {
                 animation: "fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.7s forwards",
               }}
             >
-              Story, written end to end
+              End to End Storytelling
             </p>
 
             {/* Scroll indicator — sits inside the inner ring, just below the headline */}

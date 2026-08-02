@@ -1,5 +1,6 @@
 // app/api/contact/route.ts
 import { Resend } from "resend";
+import { getStore } from "@netlify/blobs";
 import { contactSchema } from "@/lib/contact-schema";
 
 // Route Handlers in app/ are dynamic by default (POST is never cached).
@@ -10,14 +11,15 @@ export const runtime = "nodejs";
 // Faster than this almost certainly indicates a bot.
 const MIN_FORM_FILL_MS = 1500;
 
-// Simple per-IP rate limit (best-effort, in-memory). For production with high
-// traffic, swap this for Upstash Redis / Vercel KV so limits survive across
-// serverless invocations.
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
 const RATE_LIMIT_MAX = 5; // 5 submissions per IP per window
+
+// In-memory fallback used only when Netlify Blobs is unavailable (e.g. local
+// `next dev`). On Netlify each serverless instance has its own memory, so this
+// alone would not enforce a shared limit — hence the Blobs-backed store below.
 const ipHits = new Map<string, number[]>();
 
-function rateLimit(ip: string): boolean {
+function memoryRateLimit(ip: string): boolean {
   const now = Date.now();
   const cutoff = now - RATE_LIMIT_WINDOW_MS;
   const recent = (ipHits.get(ip) ?? []).filter((t) => t > cutoff);
@@ -28,6 +30,36 @@ function rateLimit(ip: string): boolean {
   recent.push(now);
   ipHits.set(ip, recent);
   return true;
+}
+
+/**
+ * Per-IP rate limit backed by Netlify Blobs so the limit is shared across all
+ * serverless instances. Reads use strong consistency so concurrent requests
+ * see each other's recent writes. Falls back to in-memory tracking if Blobs is
+ * not configured (local dev), so the route never hard-fails on this check.
+ */
+async function rateLimit(ip: string): Promise<boolean> {
+  const now = Date.now();
+  const cutoff = now - RATE_LIMIT_WINDOW_MS;
+  try {
+    const store = getStore("contact-rate-limit");
+    const key = `ip:${ip}`;
+    const existing = (await store.get(key, {
+      type: "json",
+      consistency: "strong",
+    })) as number[] | null;
+    const recent = (existing ?? []).filter((t) => t > cutoff);
+    if (recent.length >= RATE_LIMIT_MAX) {
+      await store.setJSON(key, recent);
+      return false;
+    }
+    recent.push(now);
+    await store.setJSON(key, recent);
+    return true;
+  } catch {
+    // Blobs unavailable (typically local dev). Degrade to in-memory limiting.
+    return memoryRateLimit(ip);
+  }
 }
 
 function escapeHtml(s: string): string {
@@ -96,7 +128,7 @@ export async function POST(request: Request) {
 
   // --- Rate limit -----------------------------------------------------------
   const ip = getClientIp(request);
-  if (!rateLimit(ip)) {
+  if (!(await rateLimit(ip))) {
     return Response.json(
       { ok: false, error: "Too many requests. Please try again shortly." },
       { status: 429 }

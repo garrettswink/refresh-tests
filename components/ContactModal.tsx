@@ -85,10 +85,6 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
       }
 
       setStatus("success");
-      // Close after a brief beat so the success state is visible.
-      setTimeout(() => {
-        onClose();
-      }, 1400);
     } catch {
       setStatus("error");
       setErrorMessage("Network error. Please try again.");
@@ -143,6 +139,24 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
             </svg>
           </button>
 
+          {status === "success" ? (
+            /* Confirmation — replaces the form entirely */
+            <div className="py-6 text-center">
+              <p
+                role="status"
+                aria-live="polite"
+                className="font-cormorant font-light text-[#f0ece4] leading-[1.3] tracking-[0.02em]"
+                style={{ fontSize: "clamp(1.5rem, 2.8vw, 2rem)" }}
+              >
+                Thank you for your message.
+                <br />
+                <span className="italic text-gold">
+                  I&rsquo;ll be in touch soon.
+                </span>
+              </p>
+            </div>
+          ) : (
+            <>
           {/* Eyebrow + heading */}
           <p className="text-[0.65rem] tracking-[0.2em] uppercase text-gold mb-3">
             Contact
@@ -248,6 +262,8 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
               </p>
             </div>
           </form>
+            </>
+          )}
         </div>
       </div>
     </div>
