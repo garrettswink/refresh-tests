@@ -1,5 +1,6 @@
 [build]
   command = "npm run build"
+  publish = ".next"
 
 [build.environment]
   # Next.js 16 requires a modern Node runtime. Pin it so local and CI match.
