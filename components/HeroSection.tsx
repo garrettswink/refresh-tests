@@ -168,7 +168,7 @@ export default function HeroSection() {
       </section>
 
       {/* Panel 2 — Profile */}
-      <section id="profile" className="scroll-mt-20 min-h-screen flex items-center justify-center px-6 py-24 border-t border-white/[0.06]">
+      <section id="profile" className="scroll-mt-20 min-h-screen flex items-start md:items-center justify-center px-6 pt-8 pb-24 md:py-24 border-t border-white/[0.06]">
         <div
           ref={profileRef}
           className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-12 md:gap-20 max-w-4xl w-full items-center opacity-0 translate-y-6 transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
