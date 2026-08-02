@@ -59,7 +59,7 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
     ? capabilities[selected!.cat].name
     : overview.eyebrow;
   const leftHeading = selectedChild ? selectedChild.name : overview.heading;
-  const leftBody = selectedChild ? [selectedChild.description] : overview.body;
+  const leftBody = selectedChild ? selectedChild.description : overview.body;
 
   // Key used to retrigger the fade when the left content swaps.
   const leftKey = selectedChild
@@ -306,9 +306,16 @@ export default function CapabilitiesSplit({ overview }: CapabilitiesSplitProps) 
                                 }}
                               >
                                 <div className="mt-3 mb-2 border-l border-[#c9a96e]/40 pl-4 pr-3 py-4 bg-[#f0ece4]/[0.03] rounded-sm">
-                                  <p className="text-[0.85rem] font-light leading-[1.8] text-[#f0ece4]/70">
-                                    {child.description}
-                                  </p>
+                                  <div className="space-y-3">
+                                    {child.description.map((paragraph, p) => (
+                                      <p
+                                        key={p}
+                                        className="text-[0.85rem] font-light leading-[1.8] text-[#f0ece4]/70"
+                                      >
+                                        {paragraph}
+                                      </p>
+                                    ))}
+                                  </div>
                                   <button
                                     type="button"
                                     onClick={() => setSelected(null)}

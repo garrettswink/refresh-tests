@@ -113,9 +113,16 @@ export default function CapabilityChildModal({
               {/* Gold rule */}
               <div className="w-12 h-px bg-[#c9a96e]/60 mb-7" />
 
-              <p className="text-[1rem] md:text-[1.05rem] font-light leading-[1.85] text-[#f0ece4]/70">
-                {child.description}
-              </p>
+              <div className="space-y-4">
+                {child.description.map((paragraph, p) => (
+                  <p
+                    key={p}
+                    className="text-[1rem] md:text-[1.05rem] font-light leading-[1.85] text-[#f0ece4]/70"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
 
               {child.proof && (
                 <p className="mt-7 text-[0.7rem] tracking-[0.18em] uppercase text-[#c9a96e]/80 font-light">

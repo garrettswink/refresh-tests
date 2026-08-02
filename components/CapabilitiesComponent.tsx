@@ -86,7 +86,7 @@ export default function CapabilitiesComponent() {
                       {cap.number}
                     </span>
 
-                    {/* Name + tagline */}
+                    {/* Name */}
                     <div className="flex-1 min-w-0">
                       <h3
                         className={`font-cormorant font-light leading-tight ${
@@ -103,15 +103,6 @@ export default function CapabilitiesComponent() {
                           {cap.name}
                         </span>
                       </h3>
-                      <p
-                        className={`font-cormorant italic font-light leading-snug mt-1 transition-colors duration-500 text-[0.95rem] md:text-[1.05rem] ${
-                          isActive
-                            ? "text-[#f0ece4]/65"
-                            : "text-[#f0ece4]/40 group-hover:text-[#f0ece4]/55"
-                        }`}
-                      >
-                        {cap.tagline}
-                      </p>
                     </div>
 
                     {/* Plus / minus indicator on the right */}
@@ -179,9 +170,16 @@ export default function CapabilitiesComponent() {
                                 {/* Underline sweep — matches Nav.tsx hover treatment */}
                                 <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#c9a96e] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/child:w-full" />
                               </h4>
-                              <p className="text-[0.9rem] md:text-[0.95rem] font-light leading-[1.75] text-[#f0ece4]/55 transition-colors duration-500 group-hover/child:text-[#f0ece4]/75">
-                                {child.description}
-                              </p>
+                              <div className="space-y-3">
+                                {child.description.map((paragraph, p) => (
+                                  <p
+                                    key={p}
+                                    className="text-[0.9rem] md:text-[0.95rem] font-light leading-[1.75] text-[#f0ece4]/55 transition-colors duration-500 group-hover/child:text-[#f0ece4]/75"
+                                  >
+                                    {paragraph}
+                                  </p>
+                                ))}
+                              </div>
                               {child.proof && (
                                 <p className="mt-3 text-[0.7rem] tracking-[0.14em] uppercase text-[#c9a96e]/70 font-light">
                                   {child.proof}
