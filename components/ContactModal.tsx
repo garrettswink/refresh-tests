@@ -233,32 +233,22 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
             <div className="pt-2 flex flex-col items-center gap-3">
               <button
                 type="submit"
-                disabled={submitting || status === "success"}
+                disabled={submitting}
                 className="text-[0.7rem] tracking-[0.18em] uppercase text-gold border border-gold/40 px-7 py-2.5 hover:bg-gold/10 hover:border-gold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {status === "sending"
-                  ? "Sending…"
-                  : status === "success"
-                  ? "Sent"
-                  : "Send"}
+                {status === "sending" ? "Sending…" : "Send"}
               </button>
 
               <p
                 role="status"
                 aria-live="polite"
                 className={`text-[0.7rem] tracking-[0.12em] uppercase min-h-[1rem] ${
-                  status === "success"
-                    ? "text-gold"
-                    : status === "error"
+                  status === "error"
                     ? "text-[#f0ece4]/70"
                     : "text-transparent"
                 }`}
               >
-                {status === "success"
-                  ? "Thanks — message sent."
-                  : status === "error"
-                  ? errorMessage
-                  : "\u00A0"}
+                {status === "error" ? errorMessage : "\u00A0"}
               </p>
             </div>
           </form>
